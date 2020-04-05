@@ -1,7 +1,12 @@
 # SocialDistance
 
-Algorithm 7 and 8 are yet to be implemented.\n
+Algorithm 7 and 8 are yet to be implemented.
+
+
 Store.java - contains all the algorithms realted to store - algorithm 1, 3 and 4.
+
+
+
 DataBase.java - sets up and declares the tables - Store and StoreStaff
 StoreStaff.java - Contains algorithms related to the store staff - algorithm 2
 Customer.java - Contains algorithms related to customers - aglorithm 5 and 6
