@@ -42,12 +42,13 @@ public class Store implements GlobalConstants {
     String QRCode2;
     int Max_People;
     int Max_InRate;
-    float[] InQueue;
+    String InQueue;
     String StoreID; // Need to create a storeID
+    String Locality;
     
     // Constructor for the class Store
     public Store(String Name, String Location, String mobile_num, String auth_info,
-            int area, LocalTime startTime, LocalTime EndTime, int people_count, String StoreID){
+            int area, LocalTime startTime, LocalTime EndTime, int people_count, String StoreID, String Locality){
         
         // Initializing the class variables
         // This part of the constructor covers Algorithm 1.1
@@ -61,10 +62,11 @@ public class Store implements GlobalConstants {
         this.People_Count = people_count;
         this.Max_People = (int) Math.round(this.Floor_Area * PplPerM2);
         this.Max_InRate = (int) Math.round(this.Max_People/MaxTimeInStore);
-        this.InQueue = new float[(int) Math.round(MaxWindow/MaxTimeInStore)];
+        this.InQueue = "0,";
         this.StoreID = StoreID;
         this.QRCode1 = this.Auth_Info + this.Name + "Entry";
         this.QRCode2 = this.Auth_Info + this.Name + "Entry";
+        this.Locality = Locality;
         //the above statements are just one way to create unique qrcode strings
         //the preferred statements can be edited later on
           
@@ -82,8 +84,9 @@ public class Store implements GlobalConstants {
                     this.Location +","+this.Manager_Mobile + 
                     ","+this.Auth_Info+"," + this.StartTime.toString()+
                     ","+this.EndTime.toString()+","+Integer.toString(this.People_Count)+
+                    ","+this.StoreID+","+this.QRCode1 +","+this.QRCode2+
                     ","+Integer.toString(this.Max_People)+","+Integer.toString(this.Max_InRate)+
-                    ","+this.StoreID+","+this.QRCode1 +","+this.QRCode2+")";
+                    ","+this.InQueue+","+this.Locality+ ")";
             stmt.executeUpdate(sql);
         }catch(SQLException se){
             se.printStackTrace();        
@@ -174,11 +177,20 @@ public class Store implements GlobalConstants {
                     LocalTime EndTime = LocalTime.parse(value.getString("EndTime"));
                     String StoreID = value.getString("StoreID");
                     LocalTime current = LocalTime.now();
+                    String InQueue = value.getString("InQueue");
                     int check = current.compareTo(EndTime);
                     // if current time is equal to or past endtime
                     if(check == 0 || check == 1){
                         sql = "UPDATE Store"
                                 + "SET StoreStatus = 0, PeopleCount = 0 WHERE StoreID == "+ StoreID;
+                        stmt.executeUpdate(sql);
+                        int index = InQueue.indexOf(',');
+                        //Removing first element of InQueue and appending 0
+                        String newQueue = InQueue.substring(index+1,InQueue.length()) + ",0";
+                        sql = "UPDATE Store "
+                                + "SET InQueue = "+ newQueue +" WHERE StoreID == "+ StoreID;
+                        stmt.executeUpdate(sql);
+                    
                     }
                     
                 }
