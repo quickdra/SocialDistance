@@ -1,6 +1,3 @@
-
-Algorithm 7 and 8 are yet to be implemented.
-
 Store.java - contains all the algorithms realted to store - algorithm 1, 3 and 4.
 
 DataBase.java - sets up and declares the tables - Store and StoreStaff.
