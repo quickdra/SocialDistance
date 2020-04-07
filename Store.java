@@ -62,7 +62,10 @@ public class Store implements GlobalConstants {
         this.People_Count = people_count;
         this.Max_People = (int) Math.round(this.Floor_Area * PplPerM2);
         this.Max_InRate = (int) Math.round(this.Max_People/MaxTimeInStore);
-        this.InQueue = "0,";
+        this.InQueue = "";
+        for(int i = 0; i <= (int)MaxWindow/MaxTimeInStore;i++){
+            this.InQueue = this.InQueue + "0,";//Each slider selection
+        }
         this.StoreID = StoreID;
         this.QRCode1 = this.Auth_Info + this.Name + "Entry";
         this.QRCode2 = this.Auth_Info + this.Name + "Entry";
