@@ -45,8 +45,8 @@ public class DataBase {
                     + "QRCode2 VARCHAR(255),"
                     + "MaxPeople INTEGER not NULL,"
                     + "MaxInRate INTEGER not NULL,"
-                    + "InQueue JSON,"// A json object consisting of all customer IDs currently inside the store,
-                    // Not sure InQueue will be useful, but included just in case
+                    + "InQueue VARCHAR(255),"
+                    + "Locality VARCHAR(255),"// Locality of Store - like kormangala, etc, this can be obtained from location
                     + "PRIMARY KEY (StoreID))";
             stmt.executeUpdate(sql);
             
